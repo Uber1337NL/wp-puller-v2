@@ -3,7 +3,7 @@
 Auto-update WordPress themes from GitHub. Free and open source.
 
 [![WordPress 5.0+](https://img.shields.io/badge/WordPress-5.0%2B-0073aa.svg)](https://wordpress.org/)
-[![PHP 7.4+](https://img.shields.io/badge/PHP-7.4%2B-777bb4.svg)](https://php.net/)
+[![PHP 8.4+](https://img.shields.io/badge/PHP-8.4%2B-777bb4.svg)](https://php.net/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ---
@@ -22,6 +22,7 @@ WP Puller connects your WordPress theme to a GitHub repository. When you push ch
 - **Private repo support** - Connect with a GitHub Personal Access Token
 - **Automatic backups** - Snapshot before every update, one-click restore
 - **Subdirectory themes** - Theme doesn't need to be at repo root
+- **Dual path deploys** - Update child/addon and base theme in one pull
 - **Branch selection** - Deploy from main, staging, production, or any branch
 
 ---
@@ -43,9 +44,10 @@ Or manually upload the `wp-puller` folder to `/wp-content/plugins/`.
 1. Go to **WP Puller** in the admin sidebar
 2. Enter your GitHub repo URL: `https://github.com/you/your-theme`
 3. Select branch (usually `main`)
-4. If your theme is in a subdirectory, enter the path (e.g., `theme/starter-theme`)
-5. Click **Test Connection**, then **Save Settings**
-6. Refreshing the page might be needed if you do not see the **Connected** indicator.
+4. If your theme is in a subdirectory, enter the primary path (e.g., `theme/starter-theme`)
+5. Optional: set a second theme path when you need to deploy parent/base theme files as part of the same update
+6. Click **Test Connection**, then **Save Settings**
+7. Refreshing the page might be needed if you do not see the **Connected** indicator.
 
 ### Set Up Webhook (for auto-updates)
 
@@ -99,7 +101,7 @@ your-repo/
 └── ...
 ```
 
-Or in a subdirectory (set "Theme Path" in settings):
+Or in one or two subdirectories (set "Theme Path" and optional "Second Theme Path" in settings):
 
 ```
 your-repo/
@@ -110,7 +112,7 @@ your-repo/
     └── ...
 ```
 
-The theme needs a valid `style.css` with a `Theme Name` header.
+Each selected theme path needs a valid `style.css` with a `Theme Name` header.
 
 ---
 
@@ -164,7 +166,7 @@ do_action( 'wp_puller_init' );
 ## Requirements
 
 - WordPress 5.0+
-- PHP 7.4+
+- PHP 8.4+
 - OpenSSL extension (for token encryption)
 
 ---

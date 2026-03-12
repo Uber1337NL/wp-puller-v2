@@ -5,15 +5,15 @@
  * @since 1.0.0
  */
 
-(function($) {
+(function ($) {
     'use strict';
 
     var WPPuller = {
-        init: function() {
+        init: function () {
             this.bindEvents();
         },
 
-        bindEvents: function() {
+        bindEvents: function () {
             $('#wp-puller-settings-form').on('submit', this.saveSettings.bind(this));
             $('#wp-puller-test-connection').on('click', this.testConnection.bind(this));
             $('#wp-puller-check-updates').on('click', this.checkUpdates.bind(this));
@@ -26,7 +26,7 @@
             $(document).on('click', '.wp-puller-copy-btn', this.copyToClipboard.bind(this));
         },
 
-        saveSettings: function(e) {
+        saveSettings: function (e) {
             e.preventDefault();
 
             var $form = $(e.currentTarget);
@@ -43,27 +43,28 @@
                     repo_url: $('#wp-puller-repo-url').val(),
                     branch: $('#wp-puller-branch').val(),
                     theme_path: $('#wp-puller-theme-path').val(),
+                    theme_path_secondary: $('#wp-puller-theme-path-secondary').val(),
                     pat: $('#wp-puller-pat').val(),
                     auto_update: $('#wp-puller-auto-update').is(':checked') ? 'true' : 'false',
                     backup_count: $('#wp-puller-backup-count').val()
                 },
-                success: function(response) {
+                success: function (response) {
                     if (response.success) {
                         WPPuller.showNotice(response.data.message, 'success');
                     } else {
                         WPPuller.showNotice(response.data.message, 'error');
                     }
                 },
-                error: function() {
+                error: function () {
                     WPPuller.showNotice(wpPuller.strings.error, 'error');
                 },
-                complete: function() {
+                complete: function () {
                     WPPuller.setLoading($btn, false);
                 }
             });
         },
 
-        testConnection: function(e) {
+        testConnection: function (e) {
             var $btn = $(e.currentTarget);
             var repoUrl = $('#wp-puller-repo-url').val();
 
@@ -82,7 +83,7 @@
                     nonce: wpPuller.nonce,
                     repo_url: repoUrl
                 },
-                success: function(response) {
+                success: function (response) {
                     if (response.success) {
                         var msg = wpPuller.strings.connected;
                         if (response.data.repo) {
@@ -100,16 +101,16 @@
                         WPPuller.showNotice(response.data.message, 'error');
                     }
                 },
-                error: function() {
+                error: function () {
                     WPPuller.showNotice(wpPuller.strings.error, 'error');
                 },
-                complete: function() {
+                complete: function () {
                     WPPuller.setLoading($btn, false);
                 }
             });
         },
 
-        checkUpdates: function(e) {
+        checkUpdates: function (e) {
             var $btn = $(e.currentTarget);
             var $result = $('#wp-puller-update-result');
 
@@ -123,7 +124,7 @@
                     action: 'wp_puller_check_updates',
                     nonce: wpPuller.nonce
                 },
-                success: function(response) {
+                success: function (response) {
                     if (response.success) {
                         var data = response.data;
                         var html = '';
@@ -152,16 +153,16 @@
                         WPPuller.showNotice(response.data.message, 'error');
                     }
                 },
-                error: function() {
+                error: function () {
                     WPPuller.showNotice(wpPuller.strings.error, 'error');
                 },
-                complete: function() {
+                complete: function () {
                     WPPuller.setLoading($btn, false);
                 }
             });
         },
 
-        updateTheme: function(e) {
+        updateTheme: function (e) {
             var $btn = $(e.currentTarget);
 
             this.setLoading($btn, true);
@@ -173,7 +174,7 @@
                     action: 'wp_puller_update_theme',
                     nonce: wpPuller.nonce
                 },
-                success: function(response) {
+                success: function (response) {
                     if (response.success) {
                         WPPuller.showNotice(wpPuller.strings.updated, 'success');
 
@@ -183,23 +184,23 @@
 
                         $('#wp-puller-update-result').hide();
 
-                        setTimeout(function() {
+                        setTimeout(function () {
                             location.reload();
                         }, 1500);
                     } else {
                         WPPuller.showNotice(response.data.message, 'error');
                     }
                 },
-                error: function() {
+                error: function () {
                     WPPuller.showNotice(wpPuller.strings.error, 'error');
                 },
-                complete: function() {
+                complete: function () {
                     WPPuller.setLoading($btn, false);
                 }
             });
         },
 
-        restoreBackup: function(e) {
+        restoreBackup: function (e) {
             var $btn = $(e.currentTarget);
             var backupName = $btn.data('name');
 
@@ -217,26 +218,26 @@
                     nonce: wpPuller.nonce,
                     backup_name: backupName
                 },
-                success: function(response) {
+                success: function (response) {
                     if (response.success) {
                         WPPuller.showNotice(wpPuller.strings.restored, 'success');
-                        setTimeout(function() {
+                        setTimeout(function () {
                             location.reload();
                         }, 1500);
                     } else {
                         WPPuller.showNotice(response.data.message, 'error');
                     }
                 },
-                error: function() {
+                error: function () {
                     WPPuller.showNotice(wpPuller.strings.error, 'error');
                 },
-                complete: function() {
+                complete: function () {
                     WPPuller.setLoading($btn, false);
                 }
             });
         },
 
-        deleteBackup: function(e) {
+        deleteBackup: function (e) {
             var $btn = $(e.currentTarget);
             var backupName = $btn.data('name');
 
@@ -254,9 +255,9 @@
                     nonce: wpPuller.nonce,
                     backup_name: backupName
                 },
-                success: function(response) {
+                success: function (response) {
                     if (response.success) {
-                        $btn.closest('.wp-puller-backup-item').fadeOut(function() {
+                        $btn.closest('.wp-puller-backup-item').fadeOut(function () {
                             $(this).remove();
 
                             if ($('#wp-puller-backup-list li').length === 0) {
@@ -270,16 +271,16 @@
                         WPPuller.showNotice(response.data.message, 'error');
                     }
                 },
-                error: function() {
+                error: function () {
                     WPPuller.showNotice(wpPuller.strings.error, 'error');
                 },
-                complete: function() {
+                complete: function () {
                     WPPuller.setLoading($btn, false);
                 }
             });
         },
 
-        regenerateSecret: function(e) {
+        regenerateSecret: function (e) {
             var $btn = $(e.currentTarget);
 
             if (!confirm(wpPuller.strings.confirmRegenerate)) {
@@ -295,7 +296,7 @@
                     action: 'wp_puller_regenerate_secret',
                     nonce: wpPuller.nonce
                 },
-                success: function(response) {
+                success: function (response) {
                     if (response.success) {
                         $('#webhook-secret').val(response.data.secret);
                         WPPuller.showNotice(wpPuller.strings.regenerated, 'success');
@@ -303,16 +304,16 @@
                         WPPuller.showNotice(response.data.message, 'error');
                     }
                 },
-                error: function() {
+                error: function () {
                     WPPuller.showNotice(wpPuller.strings.error, 'error');
                 },
-                complete: function() {
+                complete: function () {
                     WPPuller.setLoading($btn, false);
                 }
             });
         },
 
-        clearLogs: function(e) {
+        clearLogs: function (e) {
             var $btn = $(e.currentTarget);
 
             this.setLoading($btn, true);
@@ -324,7 +325,7 @@
                     action: 'wp_puller_clear_logs',
                     nonce: wpPuller.nonce
                 },
-                success: function(response) {
+                success: function (response) {
                     if (response.success) {
                         $('#wp-puller-log-list').replaceWith(
                             '<p class="wp-puller-empty">No activity recorded yet.</p>'
@@ -334,16 +335,16 @@
                         WPPuller.showNotice(response.data.message, 'error');
                     }
                 },
-                error: function() {
+                error: function () {
                     WPPuller.showNotice(wpPuller.strings.error, 'error');
                 },
-                complete: function() {
+                complete: function () {
                     WPPuller.setLoading($btn, false);
                 }
             });
         },
 
-        copyToClipboard: function(e) {
+        copyToClipboard: function (e) {
             var $btn = $(e.currentTarget);
             var inputId = $btn.data('copy');
             var $input = $('#' + inputId);
@@ -354,7 +355,7 @@
                 document.execCommand('copy');
                 $btn.find('.dashicons').removeClass('dashicons-clipboard').addClass('dashicons-yes');
 
-                setTimeout(function() {
+                setTimeout(function () {
                     $btn.find('.dashicons').removeClass('dashicons-yes').addClass('dashicons-clipboard');
                 }, 1500);
             } catch (err) {
@@ -363,7 +364,7 @@
             }
         },
 
-        setLoading: function($btn, loading) {
+        setLoading: function ($btn, loading) {
             if (loading) {
                 $btn.addClass('wp-puller-btn-loading').prop('disabled', true);
             } else {
@@ -371,7 +372,7 @@
             }
         },
 
-        showNotice: function(message, type) {
+        showNotice: function (message, type) {
             var $notice = $('#wp-puller-notice');
             var className = 'notice-' + (type || 'info');
 
@@ -381,7 +382,7 @@
                 .html(this.escapeHtml(message))
                 .fadeIn();
 
-            setTimeout(function() {
+            setTimeout(function () {
                 $notice.fadeOut();
             }, 5000);
 
@@ -390,7 +391,7 @@
             }, 300);
         },
 
-        escapeHtml: function(str) {
+        escapeHtml: function (str) {
             if (!str) return '';
             var div = document.createElement('div');
             div.appendChild(document.createTextNode(str));
@@ -398,7 +399,7 @@
         }
     };
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         WPPuller.init();
     });
 

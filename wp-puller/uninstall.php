@@ -1,4 +1,6 @@
 <?php
+
+
 /**
  * Uninstall WP Puller
  *
@@ -8,7 +10,7 @@
  * @since 1.0.0
  */
 
-if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
+if (! defined('WP_UNINSTALL_PLUGIN')) {
     exit;
 }
 
@@ -16,6 +18,7 @@ $options = array(
     'wp_puller_repo_url',
     'wp_puller_branch',
     'wp_puller_theme_path',
+    'wp_puller_theme_path_secondary',
     'wp_puller_pat',
     'wp_puller_webhook_secret',
     'wp_puller_last_check',

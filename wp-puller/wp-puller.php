@@ -2,13 +2,13 @@
 
 /**
  * Plugin Name: WP Puller
- * Plugin URI: https://github.com/developer/wp-puller
- * Description: Automatically update your WordPress theme from GitHub. Supports public and private repositories with webhook-based real-time updates.
- * Version: 2.0.0
+ * Plugin URI: https://github.com/Uber1337NL/wp-puller-v2
+ * Description: Automatically update your WordPress theme from GitHub. Supports public and private repositories with webhook-based real-time updates. Including support for a parent/child theme (dual folder sync)
+ * Version: 2.0.1
  * Requires at least: 5.0
  * Requires PHP: 8.4
- * Author: Developer
- * Author URI: https://github.com/developer
+ * Author: Uber1337NL, developer
+ * Author URI: https://github.com/Uber1337NL
  * License: MIT
  * License URI: https://opensource.org/licenses/MIT
  * Text Domain: wp-puller
@@ -19,7 +19,7 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-define('WP_PULLER_VERSION', '2.0.0');
+define('WP_PULLER_VERSION', '2.0.1');
 define('WP_PULLER_PLUGIN_FILE', __FILE__);
 define('WP_PULLER_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('WP_PULLER_PLUGIN_URL', plugin_dir_url(__FILE__));

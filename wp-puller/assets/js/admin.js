@@ -50,6 +50,11 @@
                 },
                 success: function (response) {
                     if (response.success) {
+                        if (response.data.settings) {
+                            $('#wp-puller-theme-path').val(response.data.settings.theme_path || '');
+                            $('#wp-puller-theme-path-secondary').val(response.data.settings.theme_path_secondary || '');
+                        }
+
                         WPPuller.showNotice(response.data.message, 'success');
                     } else {
                         WPPuller.showNotice(response.data.message, 'error');

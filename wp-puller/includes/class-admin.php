@@ -188,10 +188,6 @@ class WP_Puller_Admin
         $theme_path           = trim($theme_path, '/');
         $theme_path_secondary = trim($theme_path_secondary, '/');
 
-        if ($theme_path === $theme_path_secondary) {
-            $theme_path_secondary = '';
-        }
-
         update_option('wp_puller_repo_url', $repo_url);
         update_option('wp_puller_branch', $branch);
         update_option('wp_puller_theme_path', $theme_path);
@@ -213,6 +209,10 @@ class WP_Puller_Admin
 
         wp_send_json_success(array(
             'message' => __('Settings saved successfully.', 'wp-puller'),
+            'settings' => array(
+                'theme_path'           => $theme_path,
+                'theme_path_secondary' => $theme_path_secondary,
+            ),
         ));
     }
 
